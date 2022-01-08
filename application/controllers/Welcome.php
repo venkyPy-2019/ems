@@ -20,6 +20,34 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('index');
+		$data['event_list'] = $this->event_model->get_eventList();
+		$this->load->view('index', $data);
+	}
+
+	public function save_event(){		
+		$result = $this->event_model->add_update_event_data();
+		if($this->input->post('event_id')){
+			$msg = 'Updated';
+			$msg_fail = 'Updating';
+		}else{
+			$msg = 'Added';
+			$msg_fail = 'Adding';
+		}
+		if ($result) {
+			$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>'.$msg.' Successfully!!</div>');
+		} else {
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>'.$msg_fail.' has been failed !!</div>');
+		}
+		redirect(base_url() . 'index', 'refresh');
+	}
+
+	public function remove_event($event_id){		
+		$result = $this->event_model->delete_event($event_id);
+		if ($result) {
+			$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>Deleted Successfully!!</div>');
+		} else {
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>Deleting has been failed !!</div>');
+		}
+		redirect(base_url() . 'index', 'refresh');
 	}
 }
