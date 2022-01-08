@@ -47,8 +47,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | controller and method URI segments.
 |
 | Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
+|		my-cont
+roller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'welcome'; 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+$route['(:any)'] = "welcome/$1";
+$route['(:any)/(:any)'] = "welcome/$1/$2";
+$route['(:any)/(:any)/(:any)'] = "welcome/$1/$2/$3";
+$route['(:any)/(:any)/(:any)/(:any)'] = "welcome/$1/$2/$3/$4";
